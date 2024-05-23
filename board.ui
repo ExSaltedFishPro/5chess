@@ -13,19 +13,6 @@
   <property name="windowTitle">
    <string>Form</string>
   </property>
-  <widget class="QListView" name="listView">
-   <property name="geometry">
-    <rect>
-     <x>0</x>
-     <y>0</y>
-     <width>3151</width>
-     <height>1781</height>
-    </rect>
-   </property>
-   <property name="styleSheet">
-    <string notr="true">background-image: url(:/images/board.png);</string>
-   </property>
-  </widget>
   <widget class="QLabel" name="status">
    <property name="geometry">
     <rect>

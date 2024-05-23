@@ -45,13 +45,20 @@ board::board(ConnectUI *connect,QWidget *parent)
     }
 }
 
-void board::paint(string data){
+void board::paintEvent(QPaintEvent *event){
     for(int i=0;i<boardWidth;i++){
         for(int j=0;j<boardWidth;j++){
-            chess[i][j]=(int)data[i*boardWidth+j]-48;
+            this->chess[i][j]=(int)this->boardRaw[i*boardWidth+j]-48;
         }
     }
+    //for(int i=0;i<boardWidth;i++){
+    //    for(int j=0;j<boardWidth;j++){
+    //        cout<<chess[i][j];
+    //     }
+    //    cout<<endl;
+    //}
     QPainter painter(this);
+    painter.drawPixmap(QRect(0,0,1890,1063),QPixmap(":/images/board.png"));
     for(int i=0;i<30;++i)
         for(int j=0;j<30;++j)
         {
@@ -76,11 +83,10 @@ void board::mouseReleaseEvent(QMouseEvent *event){
     int chessY = (y-baseY)/28;
     if (chess[chessY][chessX]!=0) return;
     chess[chessY][chessX] = color;
-
-    std::string response;
     CURL *curl;
     CURLcode res;
     curl = curl_easy_init();
+    string response;
     string location = to_string(chessX) + "," + to_string(chessY);
     string url = baseURL + "game/" + gameId + "/setChess";
     string strPostData = "location="+location+"&userId="+userId;
@@ -94,16 +100,17 @@ void board::mouseReleaseEvent(QMouseEvent *event){
     curl_easy_cleanup(curl);
 }
 int board::main_loop(string &url,string &game,string &mode){
-    connect(this,&board::back,[&](){
+    connect(this,&board::end,[&](){
+
     });
-    QTimer::singleShot(1000,this,[&](){
+    QTimer::singleShot(3000,this,[&](){
         //循环请求并渲染棋盘
         string target = url + "game/" + game + "/getBoard";
-        std::string response;
         CURL *curl;
         CURLcode res;
         curl = curl_easy_init();
         string strPostData = "";
+        string response;
         curl_easy_setopt(curl, CURLOPT_URL, target.c_str());
         curl_easy_setopt(curl, CURLOPT_WRITEDATA, &response);
         curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, WriteCallback);
@@ -111,7 +118,9 @@ int board::main_loop(string &url,string &game,string &mode){
         curl_easy_setopt(curl, CURLOPT_VERBOSE, 1L);
         curl_easy_setopt(curl, CURLOPT_POSTFIELDS, strPostData.c_str());
         res = curl_easy_perform(curl);
-        paint(response);
+        boardRaw = response;
+        update();
+        return main_loop(url,game,url);
     });
     return 0;
 }
