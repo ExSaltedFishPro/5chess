@@ -63,9 +63,9 @@ void board::paintEvent(QPaintEvent *event){
     for(int j=0;j<30;++j)
         for(int i=0;i<30;++i)
         {
-            if(chess[i][j]==1)
+            if(chess[j][i]==1)
                 painter.drawPixmap(QRect(baseX+i*17,baseY+j*17,15,15),QPixmap(":/images/Black.png"));
-            if(chess[i][j]==2)
+            if(chess[j][i]==2)
                 painter.drawPixmap(QRect(baseX+i*17,baseY+j*17,15,15),QPixmap(":/images/Black.png"));
         }
     //如果游戏开始了，那么绘制棋子的提示
@@ -103,7 +103,7 @@ int board::main_loop(string &url,string &game,string &mode){
     connect(this,&board::end,[&](){
 
     });
-    QTimer::singleShot(3000,this,[&](){
+    QTimer::singleShot(10000,this,[&](){
         //循环请求并渲染棋盘
         string target = url + "game/" + game + "/getBoard";
         CURL *curl;
