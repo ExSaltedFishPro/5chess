@@ -1,6 +1,8 @@
 #ifndef BOARD_H
 #define BOARD_H
 
+#define boardWidth 30
+
 #include <QWidget>
 #include "connectui.h"
 
@@ -13,14 +15,20 @@ class board : public QWidget
     Q_OBJECT
 
 public:
+    std::string baseURL;
+    std::string gameId;
+    std::string userId;
     explicit board(ConnectUI *connect, QWidget *parent = nullptr);
+    void mouseReleaseEvent(QMouseEvent *event);
+    int chess[boardWidth][boardWidth];
+    int color; //black->1 white->2
     ~board();
 signals:
     void back();
 
 private:
     Ui::board *ui;
-    void paint(int **chess);
+    void paint(std::string data);
     bool waiting=true;
     int wait(std::string &url, std::string &game,std::string &mode);
 

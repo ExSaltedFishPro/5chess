@@ -6,6 +6,12 @@
 #include <QTimer>
 #include <QMessageBox>
 #include "connectui.h"
+#include <QMouseEvent>
+#define boardWidth 30
+#define baseX 861
+#define baseY 61
+#define black 1
+#define white 2
 using namespace std;
 static size_t WriteCallback(void *contents, size_t size, size_t nmemb, void *userp) {
     size_t realsize = size * nmemb;
@@ -24,26 +30,35 @@ board::board(ConnectUI *connect,QWidget *parent)
     : QWidget(parent)
     , ui(new Ui::board)
 {
+    baseURL = connect->url;
+    gameId = connect->game;
+    userId = connect->id;
     ui->setupUi(this);
     if (connect->mode=="newgame"){
         wait(connect->url,connect->game,connect->mode);
+        color = black;
     }
     if (connect->mode=="join"){
         waiting = false;
+        color = white;
         main_loop(connect->url,connect->game,connect->mode);
     }
 }
 
-void board::paint(int** chess){
-    //画背景
+void board::paint(string data){
+    for(int i=0;i<boardWidth;i++){
+        for(int j=0;j<boardWidth;j++){
+            chess[i][j]=(int)data[i*boardWidth+j]-48;
+        }
+    }
     QPainter painter(this);
     for(int i=0;i<30;++i)
         for(int j=0;j<30;++j)
         {
             if(chess[i][j]==1)
-                painter.drawPixmap(QRect(202+i*30,32+j*30,28,28),QPixmap(":/images/Black.png"));
+                painter.drawPixmap(QRect(baseX+i*30,baseY+j*30,28,28),QPixmap(":/images/Black.png"));
             if(chess[i][j]==2)
-                painter.drawPixmap(QRect(202+i*30,32+j*30,28,28),QPixmap(":/images/White.png"));
+                painter.drawPixmap(QRect(baseX+i*30,baseY+j*30,28,28),QPixmap(":/images/Black.png"));
         }
     //如果游戏开始了，那么绘制棋子的提示
     //if(beginFlag){
@@ -52,12 +67,51 @@ void board::paint(int** chess){
     //    painter.drawEllipse(QRect(chessX*30+212,chessY*30+42,8,8));
     //}
 }
+void board::mouseReleaseEvent(QMouseEvent *event){
+    //判定是否开始以及鼠标位置是否正确
+    if(waiting) return;
+    int x=event->x(),y=event->y();
+    if(x<baseX||x>(baseX+28*boardWidth)||y<baseY||y>(baseY+28*boardWidth)) return;
+    int chessX = (x-baseX)/28;
+    int chessY = (y-baseY)/28;
+    if (chess[chessY][chessX]!=0) return;
+    chess[chessY][chessX] = color;
+
+    std::string response;
+    CURL *curl;
+    CURLcode res;
+    curl = curl_easy_init();
+    string location = to_string(chessX) + "," + to_string(chessY);
+    string url = baseURL + "game/" + gameId + "/setChess";
+    string strPostData = "location="+location+"&userId="+userId;
+    curl_easy_setopt(curl, CURLOPT_URL, url.c_str());
+    curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, WriteCallback);
+    curl_easy_setopt(curl, CURLOPT_WRITEDATA, &response);
+    curl_easy_setopt(curl, CURLOPT_POST, 1);
+    curl_easy_setopt(curl, CURLOPT_POSTFIELDS, strPostData.c_str());
+    curl_easy_setopt(curl, CURLOPT_VERBOSE, 1L );
+    res = curl_easy_perform(curl);
+    curl_easy_cleanup(curl);
+}
 int board::main_loop(string &url,string &game,string &mode){
     connect(this,&board::back,[&](){
-
     });
-    QTimer::singleShot(10000,this,[&](){
+    QTimer::singleShot(1000,this,[&](){
         //循环请求并渲染棋盘
+        string target = url + "game/" + game + "/getBoard";
+        std::string response;
+        CURL *curl;
+        CURLcode res;
+        curl = curl_easy_init();
+        string strPostData = "";
+        curl_easy_setopt(curl, CURLOPT_URL, target.c_str());
+        curl_easy_setopt(curl, CURLOPT_WRITEDATA, &response);
+        curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, WriteCallback);
+        curl_easy_setopt(curl, CURLOPT_POST, 1);
+        curl_easy_setopt(curl, CURLOPT_VERBOSE, 1L);
+        curl_easy_setopt(curl, CURLOPT_POSTFIELDS, strPostData.c_str());
+        res = curl_easy_perform(curl);
+        paint(response);
     });
     return 0;
 }
