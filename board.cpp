@@ -30,6 +30,7 @@ board::board(ConnectUI *connect,QWidget *parent)
     }
     if (connect->mode=="join"){
         waiting = false;
+        main_loop(connect->url,connect->game,connect->mode);
     }
 }
 

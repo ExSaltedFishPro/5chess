@@ -113,6 +113,10 @@ ConnectUI::ConnectUI(QWidget *parent)
         id = ID.toStdString();
         mode = "join";
         url = "http://" + addr.toStdString() + "/";
+        if (QString::fromStdString(response)=="1"){
+            QMessageBox::information(NULL, "Notice", "Game ID Not Exists!");
+            return 0;
+        }
         board *chessBoard = new board(this);
         chessBoard->show();
         return 0;
