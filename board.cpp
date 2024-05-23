@@ -8,8 +8,8 @@
 #include "connectui.h"
 #include <QMouseEvent>
 #define boardWidth 30
-#define baseX 861
-#define baseY 61
+#define baseX 517
+#define baseY 17
 #define black 1
 #define white 2
 using namespace std;
@@ -58,14 +58,15 @@ void board::paintEvent(QPaintEvent *event){
     //    cout<<endl;
     //}
     QPainter painter(this);
-    painter.drawPixmap(QRect(0,0,1890,1063),QPixmap(":/images/board.png"));
-    for(int i=0;i<30;++i)
-        for(int j=0;j<30;++j)
+    painter.drawPixmap(QRect(0,0,1134,638),QPixmap(":/images/board.png"));
+    painter.drawPixmap(QRect(baseX,baseY,15,15),QPixmap(":/images/Black.png"));
+    for(int j=0;j<30;++j)
+        for(int i=0;i<30;++i)
         {
             if(chess[i][j]==1)
-                painter.drawPixmap(QRect(baseX+i*30,baseY+j*30,28,28),QPixmap(":/images/Black.png"));
+                painter.drawPixmap(QRect(baseX+i*17,baseY+j*17,15,15),QPixmap(":/images/Black.png"));
             if(chess[i][j]==2)
-                painter.drawPixmap(QRect(baseX+i*30,baseY+j*30,28,28),QPixmap(":/images/Black.png"));
+                painter.drawPixmap(QRect(baseX+i*17,baseY+j*17,15,15),QPixmap(":/images/Black.png"));
         }
     //如果游戏开始了，那么绘制棋子的提示
     //if(beginFlag){
@@ -75,12 +76,11 @@ void board::paintEvent(QPaintEvent *event){
     //}
 }
 void board::mouseReleaseEvent(QMouseEvent *event){
-    //判定是否开始以及鼠标位置是否正确
     if(waiting) return;
     int x=event->x(),y=event->y();
-    if(x<baseX||x>(baseX+28*boardWidth)||y<baseY||y>(baseY+28*boardWidth)) return;
-    int chessX = (x-baseX)/28;
-    int chessY = (y-baseY)/28;
+    if(x<baseX||x>(baseX+17*boardWidth)||y<baseY||y>(baseY+17*boardWidth)) return;
+    int chessX = (x-baseX)/17;
+    int chessY = (y-baseY)/17;
     if (chess[chessY][chessX]!=0) return;
     chess[chessY][chessX] = color;
     CURL *curl;
