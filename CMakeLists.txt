@@ -30,6 +30,7 @@ include_directories("C:\\Users\\likaijie\\.vcpkg-clion\\vcpkg\\installed\\x64-mi
 add_executable(5chess main.cpp
         connectui.cpp
         board.cpp
+        pvplocal.cpp
         resources.qrc
 )
 add_library(

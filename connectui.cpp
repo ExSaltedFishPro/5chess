@@ -5,6 +5,8 @@
 #include <iostream>
 #include <QMessageBox>
 #include "board.h"
+#include "pvplocal.h"
+
 using namespace std;
 static size_t WriteCallback(void *contents, size_t size, size_t nmemb, void *userp) {
     size_t realsize = size * nmemb;
@@ -119,6 +121,11 @@ ConnectUI::ConnectUI(QWidget *parent)
         }
         board *chessBoard = new board(this);
         chessBoard->show();
+        return 0;
+    });
+    connect(ui->localpvp,&QPushButton::clicked,[=](){
+        pvplocal *pvpl = new pvplocal();
+        pvpl->show();
         return 0;
     });
 }

@@ -139,7 +139,7 @@
     <string>Online PVP</string>
    </property>
   </widget>
-  <widget class="QPushButton" name="onlinepve">
+  <widget class="QPushButton" name="pve">
    <property name="geometry">
     <rect>
      <x>260</x>
@@ -149,10 +149,10 @@
     </rect>
    </property>
    <property name="text">
-    <string>Online PVE</string>
+    <string>PVE</string>
    </property>
   </widget>
-  <widget class="QPushButton" name="eve">
+  <widget class="QPushButton" name="localpvp">
    <property name="geometry">
     <rect>
      <x>360</x>
@@ -162,7 +162,7 @@
     </rect>
    </property>
    <property name="text">
-    <string>EVE</string>
+    <string>Local PVP</string>
    </property>
   </widget>
   <widget class="QPushButton" name="join">

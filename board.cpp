@@ -7,12 +7,15 @@
 #include <QMessageBox>
 #include "connectui.h"
 #include <QMouseEvent>
-#define boardWidth 30
+
+#define boardWidth 31
 #define baseX 517
 #define baseY 17
 #define black 1
 #define white 2
+
 using namespace std;
+//CURL回调函数
 static size_t WriteCallback(void *contents, size_t size, size_t nmemb, void *userp) {
     size_t realsize = size * nmemb;
     static int current_index = 0;
@@ -35,13 +38,15 @@ board::board(ConnectUI *connect,QWidget *parent)
     userId = connect->id;
     ui->setupUi(this);
     if (connect->mode=="newgame"){
+        wait_another = false;
         wait(connect->url,connect->game,connect->mode);
         color = black;
     }
     if (connect->mode=="join"){
+        wait_another = true;
         waiting = false;
         color = white;
-        main_loop(connect->url,connect->game,connect->mode);
+        main_loop(connect->url,connect->game,connect->id);
     }
 }
 
@@ -51,12 +56,6 @@ void board::paintEvent(QPaintEvent *event){
             this->chess[i][j]=(int)this->boardRaw[i*boardWidth+j]-48;
         }
     }
-    //for(int i=0;i<boardWidth;i++){
-    //    for(int j=0;j<boardWidth;j++){
-    //        cout<<chess[i][j];
-    //     }
-    //    cout<<endl;
-    //}
     QPainter painter(this);
     painter.drawPixmap(QRect(0,0,1134,638),QPixmap(":/images/board.png"));
     painter.drawPixmap(QRect(baseX,baseY,15,15),QPixmap(":/images/Black.png"));
@@ -98,28 +97,56 @@ void board::mouseReleaseEvent(QMouseEvent *event){
     curl_easy_setopt(curl, CURLOPT_VERBOSE, 1L );
     res = curl_easy_perform(curl);
     curl_easy_cleanup(curl);
+    update();
 }
-int board::main_loop(string &url,string &game,string &mode){
-    connect(this,&board::end,[&](){
 
+string board::getPlayerNow(string &url,string &game,string &id){
+    string target = url + "game/" + game + "/getPlayerNow";
+    CURL *curl;
+    CURLcode res;
+    curl = curl_easy_init();
+    string strPostData = "";
+    string response;
+    curl_easy_setopt(curl, CURLOPT_URL, target.c_str());
+    curl_easy_setopt(curl, CURLOPT_WRITEDATA, &response);
+    curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, WriteCallback);
+    curl_easy_setopt(curl, CURLOPT_POST, 1);
+    curl_easy_setopt(curl, CURLOPT_VERBOSE, 1L);
+    curl_easy_setopt(curl, CURLOPT_POSTFIELDS, strPostData.c_str());
+    res = curl_easy_perform(curl);
+    curl_easy_cleanup(curl);
+    return response;
+}
+
+int board::main_loop(string &url,string &game,string &id){
+    connect(this,&board::set,[&](){
+        wait_another = true;
     });
-    QTimer::singleShot(10000,this,[&](){
+    QTimer::singleShot(3000,this,[&](){
         //循环请求并渲染棋盘
-        string target = url + "game/" + game + "/getBoard";
-        CURL *curl;
-        CURLcode res;
-        curl = curl_easy_init();
-        string strPostData = "";
-        string response;
-        curl_easy_setopt(curl, CURLOPT_URL, target.c_str());
-        curl_easy_setopt(curl, CURLOPT_WRITEDATA, &response);
-        curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, WriteCallback);
-        curl_easy_setopt(curl, CURLOPT_POST, 1);
-        curl_easy_setopt(curl, CURLOPT_VERBOSE, 1L);
-        curl_easy_setopt(curl, CURLOPT_POSTFIELDS, strPostData.c_str());
-        res = curl_easy_perform(curl);
-        boardRaw = response;
-        update();
+        if (wait_another){
+            string a = getPlayerNow(url,game,id);
+            if (a==id){
+                wait_another = false;
+                string target = url + "game/" + game + "/getBoard";
+                CURL *curl;
+                CURLcode res;
+                curl = curl_easy_init();
+                string strPostData = "";
+                string response;
+                curl_easy_setopt(curl, CURLOPT_URL, target.c_str());
+                curl_easy_setopt(curl, CURLOPT_WRITEDATA, &response);
+                curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, WriteCallback);
+                curl_easy_setopt(curl, CURLOPT_POST, 1);
+                curl_easy_setopt(curl, CURLOPT_VERBOSE, 1L);
+                curl_easy_setopt(curl, CURLOPT_POSTFIELDS, strPostData.c_str());
+                res = curl_easy_perform(curl);
+                boardRaw = response;
+                curl_easy_cleanup(curl);
+            }
+        } else{
+            update();
+        }
         return main_loop(url,game,url);
     });
     return 0;

@@ -1,5 +1,5 @@
-//#include <QApplication>
-//#include <QPushButton>
+// 预研期的参考代码
+
 #include <cjson/cJSON.h>
 #include <curl/curl.h>
 #include <iostream>
