@@ -14,6 +14,7 @@
 #define white 2
 
 using namespace std;
+//不考虑性能的话可以遍历一遍的样子
 int checkWin(int x,int y,pvplocal *pvpl) {
     int flag_x = 0;
     int flag_y = 0;
@@ -140,6 +141,7 @@ pvplocal::pvplocal(QWidget *parent)
     setFixedSize(1512,850);
     update();
     playerNow = 1;
+    isFinished = false;
 }
 
 void pvplocal::paintEvent(QPaintEvent *event){
@@ -171,11 +173,12 @@ void DrawBoard(pvplocal *pvpl) {
 }
 void pvplocal::mouseReleaseEvent(QMouseEvent *event){
     int x=event->x(),y=event->y();
-    if(x<baseX||x>(baseX+22*boardWidth)||y<baseY||y>(baseY+22*boardWidth)) {
+    if(x < baseX||x > (baseX + 22 * boardWidth)|| y < baseY|| y > (baseY + 22 * boardWidth)) {
         return;
     }
-    int chessX = round((x-baseX)/22);
-    int chessY = round((y-baseY)/22);
+    if (isFinished) return;
+    int chessX = round((float)(x-baseX)/22);
+    int chessY = round((float)(y-baseY)/22);
     if (chessX>30 || chessX<0 || chessY>30 || chessY<0){
         return;
     }
@@ -184,9 +187,11 @@ void pvplocal::mouseReleaseEvent(QMouseEvent *event){
     if (checkWin(chessX, chessY, this)){
         if (playerNow==black){
             QMessageBox::information(NULL, "Notice", "BLACK WIN!");
+            isFinished = true;
         }
         else{
             QMessageBox::information(NULL, "Notice", "WHITE WIN!");
+            isFinished = true;
         }
     };
     if (playerNow==1){

@@ -20,6 +20,7 @@ public:
     int chess[boardWidth][boardWidth]={{0}};
     void paintEvent(QPaintEvent *event);
     int playerNow;
+    bool isFinished;
     ~pvplocal();
 signals:
     void end();
