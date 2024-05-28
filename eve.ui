@@ -13,19 +13,6 @@
   <property name="windowTitle">
    <string>Form</string>
   </property>
-  <widget class="QPushButton" name="next">
-   <property name="geometry">
-    <rect>
-     <x>60</x>
-     <y>280</y>
-     <width>221</width>
-     <height>61</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>Next Step!!!!!</string>
-   </property>
-  </widget>
  </widget>
  <resources>
   <include location="resources.qrc"/>
