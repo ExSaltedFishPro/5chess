@@ -132,6 +132,19 @@ int checkBlockWin(int x,int y,pvplocal *pvpl) {
     if (flag_negative >= 4) {
         return true;
     }
+    //判和
+    int total_empty=961;
+    for (int i=0;i<31;i++){
+        for (int j=0;j<31;j++){
+            if (pvpl->chess[j][i]==0){
+                total_empty--;
+
+            }
+        }
+    }
+    if (total_empty==0){
+        return 3;
+    }
     return false;
 }
 bool checkWin(pvplocal *pvpl){
