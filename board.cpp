@@ -194,6 +194,13 @@ int board::main_loop(string &url,string &game,string &id){
                 curl_easy_setopt(curl, CURLOPT_POSTFIELDS, strPostData.c_str());
                 res = curl_easy_perform(curl);
                 boardRaw = response;
+                if (response=="white"){
+                    QMessageBox::information(NULL, "Notice", "WHITE WIN!");
+                    return 0;
+                } else if (response=="black"){
+                    QMessageBox::information(NULL, "Notice", "BLACK WIN!");
+                    return 0;
+                }
                 curl_easy_cleanup(curl);
             }
         } else {
