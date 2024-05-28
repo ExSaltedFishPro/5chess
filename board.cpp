@@ -38,15 +38,43 @@ board::board(ConnectUI *connect,QWidget *parent)
     gameId = connect->game;
     userId = connect->id;
     ui->setupUi(this);
+    color = 0;
     if (connect->mode=="newgame"){
-        wait_another = false;
+        waiting = true;
         wait(connect->url,connect->game,connect->id);
-        color = black;
     }
     if (connect->mode=="join"){
-        wait_another = true;
         waiting = false;
-        color = white;
+        int requestColor = QMessageBox::information(this,
+                                                    "Choose A Color",
+                                                    "Choose A Color",
+                                                    "Black!",
+                                                    "White!",
+                                                    "",
+                                                    black,
+                                                    white);
+        string tmpColor = requestColor?"white":"black";
+        std::string response;
+        CURL *curl;
+        CURLcode res;
+        curl = curl_easy_init();
+        string target = baseURL + "api/chooseColor";
+        string strPostData = "userId="+userId+"&matchId="+gameId+"&color="+tmpColor;
+        curl_easy_setopt(curl, CURLOPT_URL, target.c_str());
+        curl_easy_setopt(curl, CURLOPT_WRITEDATA, &response);
+        curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, WriteCallback);
+        curl_easy_setopt(curl, CURLOPT_POST, 1);
+        curl_easy_setopt(curl, CURLOPT_VERBOSE, 1L);
+        curl_easy_setopt(curl, CURLOPT_POSTFIELDS, strPostData.c_str());
+        res = curl_easy_perform(curl);
+        if (response=="black"){
+            wait_another = false;
+            color = black;
+        }
+        else{
+            wait_another = true;
+            color = white;
+        }
         main_loop(baseURL,gameId,userId);
     }
 }
@@ -179,6 +207,38 @@ int board::main_loop(string &url,string &game,string &id){
 int board::wait(string &url,string &game,string &id){
     waiting=true;
     connect(this,&board::back,[&](){
+        if (!color){
+            int requestColor = QMessageBox::information(this,
+                                                        "Choose A Color",
+                                                        "Choose A Color",
+                                                        "Black!",
+                                                        "White!",
+                                                        "",
+                                                        black,
+                                                        white);
+            string tmpColor = requestColor?"white":"black";
+            std::string response;
+            CURL *curl;
+            CURLcode res;
+            curl = curl_easy_init();
+            string target = url + "api/chooseColor";
+            string strPostData = "userId="+userId+"&matchId="+gameId+"&color="+tmpColor;
+            curl_easy_setopt(curl, CURLOPT_URL, target.c_str());
+            curl_easy_setopt(curl, CURLOPT_WRITEDATA, &response);
+            curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, WriteCallback);
+            curl_easy_setopt(curl, CURLOPT_POST, 1);
+            curl_easy_setopt(curl, CURLOPT_VERBOSE, 1L);
+            curl_easy_setopt(curl, CURLOPT_POSTFIELDS, strPostData.c_str());
+            res = curl_easy_perform(curl);
+            if (response=="black"){
+                wait_another = false;
+                color = black;
+            }
+            else{
+                wait_another = true;
+                color = white;
+            }
+        }
         main_loop(url,game,id);
     });
     QTimer::singleShot(1000,this,[&](){
