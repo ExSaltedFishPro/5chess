@@ -32,6 +32,8 @@ add_executable(5chess main.cpp
         board.cpp
         pvplocal.cpp
         resources.qrc
+        pve.cpp
+        eve.cpp
 )
 add_library(
         libcurl.dll

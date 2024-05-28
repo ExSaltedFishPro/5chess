@@ -6,6 +6,8 @@
 #include <QMessageBox>
 #include "board.h"
 #include "pvplocal.h"
+#include "pve.h"
+#include "eve.h"
 
 using namespace std;
 static size_t WriteCallback(void *contents, size_t size, size_t nmemb, void *userp) {
@@ -126,6 +128,16 @@ ConnectUI::ConnectUI(QWidget *parent)
     connect(ui->localpvp,&QPushButton::clicked,[=](){
         pvplocal *pvpl = new pvplocal();
         pvpl->show();
+        return 0;
+    });
+    connect(ui->pve,&QPushButton::clicked,[=](){
+        pve *pvel = new pve();
+        pvel->show();
+        return 0;
+    });
+    connect(ui->eve,&QPushButton::clicked,[=](){
+        eve *evel = new eve();
+        evel->show();
         return 0;
     });
 }

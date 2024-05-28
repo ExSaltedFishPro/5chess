@@ -15,12 +15,13 @@
 
 using namespace std;
 //不考虑性能的话可以遍历一遍的样子
-int checkWin(int x,int y,pvplocal *pvpl) {
+int checkBlockWin(int x,int y,pvplocal *pvpl) {
     int flag_x = 0;
     int flag_y = 0;
     int flag_positive = 0;
     int flag_negative = 0;
     int player = pvpl->playerNow;
+    if (pvpl->chess[y][x]!=player) return false;
     // X轴正方向判断
     for (int i = x + 1; i < 31 && i < x + 5; i++) {
         if (player != pvpl->chess[y][i]) {
@@ -133,7 +134,16 @@ int checkWin(int x,int y,pvplocal *pvpl) {
     }
     return false;
 }
-
+bool checkWin(pvplocal *pvpl){
+    for (int i=0;i<31;i++){
+        for (int j=0;j<31;j++){
+            if (checkBlockWin(i,j,pvpl)){
+                return true;
+            }
+        }
+    }
+    return false;
+}
 pvplocal::pvplocal(QWidget *parent)
     : QWidget(parent)
     , ui(new Ui::pvplocal)
@@ -156,21 +166,7 @@ void pvplocal::paintEvent(QPaintEvent *event){
                 painter.drawPixmap(QRect(baseX-8+i*22,baseY-8+j*22,16,16),QPixmap(":/images/White.png"));
         }
 }
-void DrawBoard(pvplocal *pvpl) {
-    for (int i = 0; i < boardWidth; ++i) {
-        for (int j = 0; j < boardWidth; ++j) {
-            cout << pvpl->chess[i][j] << "  ";
-        }
-        cout <<' '<< i << endl;
-    }
-    for (int i= 0; i < boardWidth ;++i) {
-        cout<<i<<" ";
-        if(i<10) {
-            cout<<" ";
-        }
-    }
-    cout<<endl;
-}
+
 void pvplocal::mouseReleaseEvent(QMouseEvent *event){
     int x=event->x(),y=event->y();
     if(x < baseX||x > (baseX + 22 * boardWidth)|| y < baseY|| y > (baseY + 22 * boardWidth)) {
@@ -184,7 +180,7 @@ void pvplocal::mouseReleaseEvent(QMouseEvent *event){
     }
     if (chess[chessY][chessX]!=0) return;
     chess[chessY][chessX] = playerNow;
-    if (checkWin(chessX, chessY, this)){
+    if (checkWin(this)){
         if (playerNow==black){
             QMessageBox::information(NULL, "Notice", "BLACK WIN!");
             isFinished = true;

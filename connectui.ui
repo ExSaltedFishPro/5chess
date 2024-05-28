@@ -129,7 +129,7 @@
   <widget class="QPushButton" name="onlinepvp">
    <property name="geometry">
     <rect>
-     <x>60</x>
+     <x>30</x>
      <y>220</y>
      <width>81</width>
      <height>31</height>
@@ -142,7 +142,7 @@
   <widget class="QPushButton" name="pve">
    <property name="geometry">
     <rect>
-     <x>260</x>
+     <x>210</x>
      <y>220</y>
      <width>81</width>
      <height>31</height>
@@ -155,7 +155,7 @@
   <widget class="QPushButton" name="localpvp">
    <property name="geometry">
     <rect>
-     <x>360</x>
+     <x>300</x>
      <y>220</y>
      <width>81</width>
      <height>31</height>
@@ -168,7 +168,7 @@
   <widget class="QPushButton" name="join">
    <property name="geometry">
     <rect>
-     <x>160</x>
+     <x>120</x>
      <y>220</y>
      <width>81</width>
      <height>31</height>
@@ -176,6 +176,19 @@
    </property>
    <property name="text">
     <string>Join PVP</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="eve">
+   <property name="geometry">
+    <rect>
+     <x>390</x>
+     <y>220</y>
+     <width>81</width>
+     <height>31</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>EVE</string>
    </property>
   </widget>
  </widget>
