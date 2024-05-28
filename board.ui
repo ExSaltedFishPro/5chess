@@ -13,19 +13,6 @@
   <property name="windowTitle">
    <string>Form</string>
   </property>
-  <widget class="QLabel" name="status">
-   <property name="geometry">
-    <rect>
-     <x>60</x>
-     <y>50</y>
-     <width>491</width>
-     <height>41</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>Status:</string>
-   </property>
-  </widget>
  </widget>
  <resources>
   <include location="resources.qrc"/>

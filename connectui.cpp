@@ -86,6 +86,7 @@ ConnectUI::ConnectUI(QWidget *parent)
         QString addr=ui->addr->text();
         QString ID=ui->username->text();
         QString gameID=ui->gameid->text();
+        game = gameID.toStdString();
         if (addr.toStdString()==""){
             QMessageBox::information(NULL, "Notice", "Empty Address!");
             return 0;
@@ -103,7 +104,7 @@ ConnectUI::ConnectUI(QWidget *parent)
         CURLcode res;
         curl = curl_easy_init();
         string baseURL = "http://" + addr.toStdString() + "/";
-        string strPostData = "userId="+ID.toStdString() +"matchId="+gameID.toStdString();
+        string strPostData = "userId="+ID.toStdString() +"&matchId="+gameID.toStdString();
         url = baseURL + "api/joinGame";
         curl_easy_setopt(curl, CURLOPT_URL, url.c_str());
         curl_easy_setopt(curl, CURLOPT_WRITEDATA, &response);

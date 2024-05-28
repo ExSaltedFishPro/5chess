@@ -9,8 +9,8 @@
 #include <QMouseEvent>
 
 #define boardWidth 31
-#define baseX 517
-#define baseY 17
+#define baseX 689
+#define baseY 24
 #define black 1
 #define white 2
 
@@ -33,20 +33,21 @@ board::board(ConnectUI *connect,QWidget *parent)
     : QWidget(parent)
     , ui(new Ui::board)
 {
+    setFixedSize(1512,850);
     baseURL = connect->url;
     gameId = connect->game;
     userId = connect->id;
     ui->setupUi(this);
     if (connect->mode=="newgame"){
         wait_another = false;
-        wait(connect->url,connect->game,connect->mode);
+        wait(connect->url,connect->game,connect->id);
         color = black;
     }
     if (connect->mode=="join"){
         wait_another = true;
         waiting = false;
         color = white;
-        main_loop(connect->url,connect->game,connect->id);
+        main_loop(baseURL,gameId,userId);
     }
 }
 
@@ -57,30 +58,34 @@ void board::paintEvent(QPaintEvent *event){
         }
     }
     QPainter painter(this);
-    painter.drawPixmap(QRect(0,0,1134,638),QPixmap(":/images/board.png"));
-    painter.drawPixmap(QRect(baseX,baseY,15,15),QPixmap(":/images/Black.png"));
-    for(int j=0;j<30;++j)
-        for(int i=0;i<30;++i)
+    painter.drawPixmap(QRect(0,0,1512,850),QPixmap(":/images/board.png"));
+    for(int j=0;j<boardWidth;++j)
+        for(int i=0;i<boardWidth;++i)
         {
             if(chess[j][i]==1)
-                painter.drawPixmap(QRect(baseX+i*17,baseY+j*17,15,15),QPixmap(":/images/Black.png"));
+                painter.drawPixmap(QRect(baseX-8+i*22,baseY-8+j*22,16,16),QPixmap(":/images/Black.png"));
             if(chess[j][i]==2)
-                painter.drawPixmap(QRect(baseX+i*17,baseY+j*17,15,15),QPixmap(":/images/Black.png"));
+                painter.drawPixmap(QRect(baseX-8+i*22,baseY-8+j*22,16,16),QPixmap(":/images/White.png"));
         }
+}
     //如果游戏开始了，那么绘制棋子的提示
     //if(beginFlag){
     //    //画上次下棋子的位置 用红色标记
     //    painter.setBrush(Qt::red);
     //    painter.drawEllipse(QRect(chessX*30+212,chessY*30+42,8,8));
     //}
-}
+
+
 void board::mouseReleaseEvent(QMouseEvent *event){
-    if(waiting) return;
     int x=event->x(),y=event->y();
-    if(x<baseX||x>(baseX+17*boardWidth)||y<baseY||y>(baseY+17*boardWidth)) return;
-    int chessX = (x-baseX)/17;
-    int chessY = (y-baseY)/17;
-    if (chess[chessY][chessX]!=0) return;
+    if(x < baseX||x > (baseX + 22 * boardWidth)|| y < baseY|| y > (baseY + 22 * boardWidth)) {
+        return;
+    }
+    int chessX = round((float)(x-baseX)/22);
+    int chessY = round((float)(y-baseY)/22);
+    if (chessX>30 || chessX<0 || chessY>30 || chessY<0){
+        return;
+    }
     chess[chessY][chessX] = color;
     CURL *curl;
     CURLcode res;
@@ -97,9 +102,28 @@ void board::mouseReleaseEvent(QMouseEvent *event){
     curl_easy_setopt(curl, CURLOPT_VERBOSE, 1L );
     res = curl_easy_perform(curl);
     curl_easy_cleanup(curl);
+    tempGetBoard();
     update();
+    wait_another = true;
 }
 
+void board::tempGetBoard(){
+    string target = baseURL + "game/" + gameId + "/getBoard";
+    CURL *curl;
+    CURLcode res;
+    curl = curl_easy_init();
+    string strPostData = "";
+    string response;
+    curl_easy_setopt(curl, CURLOPT_URL, target.c_str());
+    curl_easy_setopt(curl, CURLOPT_WRITEDATA, &response);
+    curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, WriteCallback);
+    curl_easy_setopt(curl, CURLOPT_POST, 1);
+    curl_easy_setopt(curl, CURLOPT_VERBOSE, 1L);
+    curl_easy_setopt(curl, CURLOPT_POSTFIELDS, strPostData.c_str());
+    res = curl_easy_perform(curl);
+    boardRaw = response;
+    curl_easy_cleanup(curl);
+}
 string board::getPlayerNow(string &url,string &game,string &id){
     string target = url + "game/" + game + "/getPlayerNow";
     CURL *curl;
@@ -126,7 +150,7 @@ int board::main_loop(string &url,string &game,string &id){
         //循环请求并渲染棋盘
         if (wait_another){
             string a = getPlayerNow(url,game,id);
-            if (a==id){
+            if (a == id){
                 wait_another = false;
                 string target = url + "game/" + game + "/getBoard";
                 CURL *curl;
@@ -144,18 +168,18 @@ int board::main_loop(string &url,string &game,string &id){
                 boardRaw = response;
                 curl_easy_cleanup(curl);
             }
-        } else{
+        } else {
             update();
         }
-        return main_loop(url,game,url);
+        return main_loop(url,game,id);
     });
     return 0;
 }
 
-int board::wait(string &url,string &game,string &mode){
+int board::wait(string &url,string &game,string &id){
     waiting=true;
     connect(this,&board::back,[&](){
-        main_loop(url,game,mode);
+        main_loop(url,game,id);
     });
     QTimer::singleShot(1000,this,[&](){
         std::string response;
@@ -173,10 +197,10 @@ int board::wait(string &url,string &game,string &mode){
         res = curl_easy_perform(curl);
         if (response == "Unstarted") {
             curl_easy_cleanup(curl);
-            return wait(url,game,mode);
+            return wait(url,game,id);
         }else if (response == "NotExist"){
             curl_easy_cleanup(curl);
-            return wait(url,game,mode);
+            return wait(url,game,id);
         }else{
             QMessageBox::information(NULL, "Notice", "Game Start!");
             waiting = false;
@@ -186,6 +210,7 @@ int board::wait(string &url,string &game,string &mode){
     });
     return 1;
 }
+
 board::~board()
 {
     delete ui;
