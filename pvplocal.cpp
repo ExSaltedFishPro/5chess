@@ -136,7 +136,7 @@ int checkBlockWin(int x,int y,pvplocal *pvpl) {
     int total_empty=961;
     for (int i=0;i<31;i++){
         for (int j=0;j<31;j++){
-            if (pvpl->chess[j][i]==0){
+            if (pvpl->chess[j][i]!=0){
                 total_empty--;
 
             }

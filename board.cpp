@@ -179,13 +179,16 @@ string board::getPlayerNow(string &url,string &game,string &id){
 }
 
 int board::main_loop(string &url,string &game,string &id){
-    QMessageBox::information(NULL, "Notice", "Game Start!");
     connect(this,&board::set,[&](){
         wait_another = true;
     });
     QTimer::singleShot(3000,this,[&](){
         //循环请求并渲染棋盘
         if (wait_another){
+            ui->info->setText(QString::fromStdString("Waiting Opponent"));
+            string c = (color==black)?"Black ":"White ";
+            string title = "5-Chess Online game "+gameId + " on "+userId+"@"+baseURL + " as " + c + "- Waiting Opponent";
+            setWindowTitle(QString::fromStdString(title));
             string a = getPlayerNow(url,game,id);
             if (a == id){
                 waiting=true;
@@ -218,9 +221,9 @@ int board::main_loop(string &url,string &game,string &id){
                 curl_easy_cleanup(curl);
             }
         } else {
-            ui->info->setText(QString::fromStdString("Waiting Your Opponent to Operate"));
+            ui->info->setText(QString::fromStdString("Your Turn"));
             string c = (color==black)?"Black ":"White ";
-            string title = "5-Chess Online game "+gameId + " on "+userId+"@"+baseURL + " as " + c + "- Waiting Opponent";
+            string title = "5-Chess Online game "+gameId + " on "+userId+"@"+baseURL + " as " + c + "- Your Turn!";
             setWindowTitle(QString::fromStdString(title));
             update();
         }
@@ -266,6 +269,7 @@ int board::wait(string &url,string &game,string &id){
                 wait_another = true;
                 color = white;
             }
+            QMessageBox::information(NULL, "Notice", "Game Start!");
         }
         main_loop(url,game,id);
     });

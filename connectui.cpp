@@ -40,6 +40,12 @@ void ConnectUI::getInfo(){
     ui->games->clear();
     for (int i = 0;i<cJSON_GetArraySize(json);i++){
         int curRow = ui->games->rowCount();
+        QStringList headerlist;
+        headerlist.append(QString::fromStdString("ID"));
+        headerlist.append(QString::fromStdString("gamerA"));
+        headerlist.append(QString::fromStdString("gamerB"));
+        headerlist.append(QString::fromStdString("status"));
+        ui->games->setHorizontalHeaderLabels(headerlist);
         ui->games->insertRow(curRow);
         ui->games->setItem(curRow, 0, new QTableWidgetItem(QString::fromStdString(cJSON_GetObjectItem(cJSON_GetArrayItem(json,i),"id")->valuestring)));
         ui->games->setItem(curRow, 1, new QTableWidgetItem(QString::fromStdString(cJSON_GetObjectItem(cJSON_GetArrayItem(json,i),"gamerA")->valuestring)));
