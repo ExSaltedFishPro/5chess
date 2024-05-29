@@ -179,6 +179,7 @@ string board::getPlayerNow(string &url,string &game,string &id){
 }
 
 int board::main_loop(string &url,string &game,string &id){
+    QMessageBox::information(NULL, "Notice", "Game Start!");
     connect(this,&board::set,[&](){
         wait_another = true;
     });
@@ -187,6 +188,11 @@ int board::main_loop(string &url,string &game,string &id){
         if (wait_another){
             string a = getPlayerNow(url,game,id);
             if (a == id){
+                waiting=true;
+                ui->info->setText(QString::fromStdString("Your Turn"));
+                string c = (color==black)?"Black ":"White ";
+                string title = "5-Chess Online game "+gameId + " on "+userId+"@"+baseURL + " as " + c + "- Your Turn!";
+                setWindowTitle(QString::fromStdString(title));
                 wait_another = false;
                 string target = url + "game/" + game + "/getBoard";
                 CURL *curl;
@@ -212,6 +218,10 @@ int board::main_loop(string &url,string &game,string &id){
                 curl_easy_cleanup(curl);
             }
         } else {
+            ui->info->setText(QString::fromStdString("Waiting Your Opponent to Operate"));
+            string c = (color==black)?"Black ":"White ";
+            string title = "5-Chess Online game "+gameId + " on "+userId+"@"+baseURL + " as " + c + "- Waiting Opponent";
+            setWindowTitle(QString::fromStdString(title));
             update();
         }
         return main_loop(url,game,id);
@@ -221,6 +231,9 @@ int board::main_loop(string &url,string &game,string &id){
 
 int board::wait(string &url,string &game,string &id){
     waiting=true;
+    ui->info->setText(QString::fromStdString("Waiting..."));
+    string title = "5-Chess Online game "+gameId + " on "+userId+"@"+baseURL + " - Waiting...";
+    setWindowTitle(QString::fromStdString(title));
     connect(this,&board::back,[&](){
         if (!color){
             int requestColor = QMessageBox::information(this,
@@ -277,7 +290,6 @@ int board::wait(string &url,string &game,string &id){
             curl_easy_cleanup(curl);
             return wait(url,game,id);
         }else{
-            QMessageBox::information(NULL, "Notice", "Game Start!");
             waiting = false;
             emit back();
             return 0;
