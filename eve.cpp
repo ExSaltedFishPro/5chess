@@ -21,8 +21,6 @@ struct MaxPoints {
     int row;
 };
 
-void mouseReleaseEvent(QMouseEvent *event);
-
 int checkBlockWin(int x, int y, eve *pvpl, int player) {
     int flag_x = 0;
     int flag_y = 0;
@@ -363,6 +361,8 @@ eve::eve(QWidget *parent)
     : QWidget(parent)
     , ui(new Ui::eve)
 {
+    string title = "5-Chess EVE Mode";
+    setWindowTitle(QString::fromStdString(title));
     setFixedSize(1512,850);
     update();
     now = black;

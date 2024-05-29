@@ -360,6 +360,8 @@ pve::pve(QWidget *parent)
     , ui(new Ui::pve)
 {
     setFixedSize(1512,850);
+    string title = "5-Chess PVE Mode";
+    setWindowTitle(QString::fromStdString(title));
     isFinished = false;
     playerColor = QMessageBox::information(this,
                                        "Choose A Color",

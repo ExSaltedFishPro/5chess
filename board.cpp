@@ -33,11 +33,14 @@ board::board(ConnectUI *connect,QWidget *parent)
     : QWidget(parent)
     , ui(new Ui::board)
 {
+
     setFixedSize(1512,850);
     baseURL = connect->url;
     gameId = connect->game;
     userId = connect->id;
     ui->setupUi(this);
+    string title = "5-Chess Online game "+gameId + " on "+userId+"@"+baseURL;
+    setWindowTitle(QString::fromStdString(title));
     color = 0;
     if (connect->mode=="newgame"){
         waiting = true;

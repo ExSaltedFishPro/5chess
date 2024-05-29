@@ -162,6 +162,8 @@ pvplocal::pvplocal(QWidget *parent)
     , ui(new Ui::pvplocal)
 {
     setFixedSize(1512,850);
+    string title = "5-Chess Local PVP Mode";
+    setWindowTitle(QString::fromStdString(title));
     update();
     playerNow = 1;
     isFinished = false;
