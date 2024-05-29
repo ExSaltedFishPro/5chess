@@ -114,6 +114,7 @@ void board::mouseReleaseEvent(QMouseEvent *event){
     if (chessX>30 || chessX<0 || chessY>30 || chessY<0){
         return;
     }
+    if (chess[chessY][chessX]!=0) return;
     chess[chessY][chessX] = color;
     CURL *curl;
     CURLcode res;
