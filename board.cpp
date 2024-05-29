@@ -152,6 +152,7 @@ void board::tempGetBoard(){
     boardRaw = response;
     curl_easy_cleanup(curl);
 }
+
 string board::getPlayerNow(string &url,string &game,string &id){
     string target = url + "game/" + game + "/getPlayerNow";
     CURL *curl;
@@ -167,6 +168,9 @@ string board::getPlayerNow(string &url,string &game,string &id){
     curl_easy_setopt(curl, CURLOPT_POSTFIELDS, strPostData.c_str());
     res = curl_easy_perform(curl);
     curl_easy_cleanup(curl);
+    if (response=="FINISHED!"){
+        return id;
+    }
     return response;
 }
 
