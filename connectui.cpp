@@ -4,6 +4,7 @@
 #include <curl/curl.h>
 #include <iostream>
 #include <QMessageBox>
+#include <QTableWidgetItem>
 #include "board.h"
 #include "pvplocal.h"
 #include "pve.h"
@@ -22,7 +23,30 @@ static size_t WriteCallback(void *contents, size_t size, size_t nmemb, void *use
     }
     return realsize;
 }
-
+void ConnectUI::getInfo(){
+    QString addr=ui->addr->text();
+    std::string response;
+    CURL *curl;
+    CURLcode res;
+    curl = curl_easy_init();
+    url = "http://" + addr.toStdString() + "/info";
+    curl_easy_setopt(curl, CURLOPT_URL, url.c_str());
+    curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, WriteCallback);
+    curl_easy_setopt(curl, CURLOPT_WRITEDATA, &response);
+    curl_easy_setopt(curl, CURLOPT_HTTPGET, 1);
+    curl_easy_setopt(curl, CURLOPT_VERBOSE, 1L );
+    res = curl_easy_perform(curl);
+    cJSON *json = cJSON_Parse(response.c_str());
+    ui->games->clear();
+    for (int i = 0;i<cJSON_GetArraySize(json);i++){
+        int curRow = ui->games->rowCount();
+        ui->games->insertRow(curRow);
+        ui->games->setItem(curRow, 0, new QTableWidgetItem(QString::fromStdString(cJSON_GetObjectItem(cJSON_GetArrayItem(json,i),"id")->valuestring)));
+        ui->games->setItem(curRow, 1, new QTableWidgetItem(QString::fromStdString(cJSON_GetObjectItem(cJSON_GetArrayItem(json,i),"gamerA")->valuestring)));
+        ui->games->setItem(curRow, 2, new QTableWidgetItem(QString::fromStdString(cJSON_GetObjectItem(cJSON_GetArrayItem(json,i),"gamerB")->valuestring)));
+        ui->games->setItem(curRow, 3, new QTableWidgetItem(QString::fromStdString(cJSON_GetObjectItem(cJSON_GetArrayItem(json,i),"status")->valuestring)));
+    }
+}
 ConnectUI::ConnectUI(QWidget *parent)
     : QWidget(parent)
     , ui(new Ui::ConnectUI)
@@ -44,7 +68,9 @@ ConnectUI::ConnectUI(QWidget *parent)
         curl_easy_setopt(curl, CURLOPT_HTTPGET, 1);
         curl_easy_setopt(curl, CURLOPT_VERBOSE, 1L );
         res = curl_easy_perform(curl);
+        curl_easy_cleanup(curl);
         ui->label_5->setText("Server Type: " + QString::fromStdString(response));
+        getInfo();
     });
     connect(ui->onlinepvp,&QPushButton::clicked,[=](){
         QString addr=ui->addr->text();

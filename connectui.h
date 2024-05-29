@@ -20,6 +20,8 @@ public:
 
 private:
     Ui::ConnectUI *ui;
+
+    void getInfo();
 };
 
 #endif // CONNECTUI_H

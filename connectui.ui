@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>504</width>
-    <height>342</height>
+    <width>772</width>
+    <height>565</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -16,10 +16,10 @@
   <widget class="QLabel" name="label_2">
    <property name="geometry">
     <rect>
-     <x>40</x>
+     <x>60</x>
      <y>80</y>
      <width>131</width>
-     <height>21</height>
+     <height>31</height>
     </rect>
    </property>
    <property name="text">
@@ -29,8 +29,8 @@
   <widget class="QLabel" name="label_5">
    <property name="geometry">
     <rect>
-     <x>50</x>
-     <y>280</y>
+     <x>30</x>
+     <y>520</y>
      <width>291</width>
      <height>16</height>
     </rect>
@@ -45,7 +45,7 @@
      <x>180</x>
      <y>80</y>
      <width>141</width>
-     <height>21</height>
+     <height>31</height>
     </rect>
    </property>
   </widget>
@@ -70,10 +70,10 @@
   <widget class="QLabel" name="label_3">
    <property name="geometry">
     <rect>
-     <x>40</x>
-     <y>120</y>
+     <x>60</x>
+     <y>130</y>
      <width>71</width>
-     <height>21</height>
+     <height>31</height>
     </rect>
    </property>
    <property name="text">
@@ -83,10 +83,10 @@
   <widget class="QPushButton" name="testconn">
    <property name="geometry">
     <rect>
-     <x>350</x>
-     <y>80</y>
-     <width>111</width>
-     <height>21</height>
+     <x>470</x>
+     <y>90</y>
+     <width>131</width>
+     <height>31</height>
     </rect>
    </property>
    <property name="text">
@@ -96,10 +96,10 @@
   <widget class="QLabel" name="label_4">
    <property name="geometry">
     <rect>
-     <x>40</x>
-     <y>160</y>
+     <x>60</x>
+     <y>180</y>
      <width>71</width>
-     <height>21</height>
+     <height>31</height>
     </rect>
    </property>
    <property name="text">
@@ -110,9 +110,9 @@
    <property name="geometry">
     <rect>
      <x>180</x>
-     <y>160</y>
+     <y>180</y>
      <width>141</width>
-     <height>21</height>
+     <height>31</height>
     </rect>
    </property>
   </widget>
@@ -120,17 +120,17 @@
    <property name="geometry">
     <rect>
      <x>180</x>
-     <y>120</y>
+     <y>130</y>
      <width>141</width>
-     <height>21</height>
+     <height>31</height>
     </rect>
    </property>
   </widget>
   <widget class="QPushButton" name="onlinepvp">
    <property name="geometry">
     <rect>
-     <x>30</x>
-     <y>220</y>
+     <x>40</x>
+     <y>250</y>
      <width>81</width>
      <height>31</height>
     </rect>
@@ -142,8 +142,8 @@
   <widget class="QPushButton" name="pve">
    <property name="geometry">
     <rect>
-     <x>210</x>
-     <y>220</y>
+     <x>260</x>
+     <y>250</y>
      <width>81</width>
      <height>31</height>
     </rect>
@@ -155,8 +155,8 @@
   <widget class="QPushButton" name="localpvp">
    <property name="geometry">
     <rect>
-     <x>300</x>
-     <y>220</y>
+     <x>370</x>
+     <y>250</y>
      <width>81</width>
      <height>31</height>
     </rect>
@@ -168,8 +168,8 @@
   <widget class="QPushButton" name="join">
    <property name="geometry">
     <rect>
-     <x>120</x>
-     <y>220</y>
+     <x>150</x>
+     <y>250</y>
      <width>81</width>
      <height>31</height>
     </rect>
@@ -181,8 +181,8 @@
   <widget class="QPushButton" name="eve">
    <property name="geometry">
     <rect>
-     <x>390</x>
-     <y>220</y>
+     <x>480</x>
+     <y>250</y>
      <width>81</width>
      <height>31</height>
     </rect>
@@ -190,6 +190,36 @@
    <property name="text">
     <string>EVE</string>
    </property>
+  </widget>
+  <widget class="QTableWidget" name="games">
+   <property name="geometry">
+    <rect>
+     <x>30</x>
+     <y>310</y>
+     <width>571</width>
+     <height>181</height>
+    </rect>
+   </property>
+   <column>
+    <property name="text">
+     <string>ID</string>
+    </property>
+   </column>
+   <column>
+    <property name="text">
+     <string>gamerA</string>
+    </property>
+   </column>
+   <column>
+    <property name="text">
+     <string>gamerB</string>
+    </property>
+   </column>
+   <column>
+    <property name="text">
+     <string>Status</string>
+    </property>
+   </column>
   </widget>
  </widget>
  <resources/>
