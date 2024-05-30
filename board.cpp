@@ -212,9 +212,11 @@ int board::main_loop(string &url,string &game,string &id){
                 res = curl_easy_perform(curl);
                 boardRaw = response;
                 if (response=="white"){
+                    tempGetBoard();
                     QMessageBox::information(NULL, "Notice", "WHITE WIN!");
                     return 0;
                 } else if (response=="black"){
+                    tempGetBoard();
                     QMessageBox::information(NULL, "Notice", "BLACK WIN!");
                     return 0;
                 }
