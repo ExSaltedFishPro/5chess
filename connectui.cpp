@@ -60,7 +60,7 @@ ConnectUI::ConnectUI(QWidget *parent)
     ui->setupUi(this);
     //设置场景标题
     setWindowTitle("5-Chess");
-    ui->addr->setText(QString::fromStdString("localhost:5000"));
+    ui->addr->setText(QString::fromStdString("localhost"));
     connect(ui->testconn,&QPushButton::clicked,[=](){
         QString addr=ui->addr->text();
         std::string response;
@@ -81,6 +81,7 @@ ConnectUI::ConnectUI(QWidget *parent)
     connect(ui->onlinepvp,&QPushButton::clicked,[=](){
         QString addr=ui->addr->text();
         QString ID=ui->username->text();
+        QString pass=ui->password->text();
         if (addr.toStdString()==""){
             QMessageBox::information(NULL, "Notice", "Empty Address!");
             return 0;
@@ -89,12 +90,17 @@ ConnectUI::ConnectUI(QWidget *parent)
             QMessageBox::information(NULL, "Notice", "Empty Username!");
             return 0;
         }
+        if (pass.toStdString()==""){
+            QMessageBox::information(NULL, "Notice", "Empty Password!");
+            return 0;
+        }
+        password = pass.toStdString();
         std::string response;
         CURL *curl;
         CURLcode res;
         curl = curl_easy_init();
         string baseURL = "http://" + addr.toStdString() + "/";
-        string strPostData = "userId="+ID.toStdString();
+        string strPostData = "userId="+ID.toStdString()+"&password="+password;
         url = baseURL + "api/newGame";
         curl_easy_setopt(curl, CURLOPT_URL, url.c_str());
         curl_easy_setopt(curl, CURLOPT_WRITEDATA, &response);
@@ -109,7 +115,12 @@ ConnectUI::ConnectUI(QWidget *parent)
         mode = "newgame";
         url = "http://" + addr.toStdString() + "/";
         game = response;
+        if (game=="nouser"){
+            QMessageBox::information(NULL, "Notice", "Not Registered!");
+            return 0;
+        }
         ui->gameid->setText(QString::fromStdString(response));
+
         board *chessBoard = new board(this);
         chessBoard->show();
         return 0;
@@ -171,6 +182,48 @@ ConnectUI::ConnectUI(QWidget *parent)
     connect(ui->eve,&QPushButton::clicked,[=](){
         eve *evel = new eve();
         evel->show();
+        return 0;
+    });
+    connect(ui->reg,&QPushButton::clicked,[=](){
+        QString addr=ui->addr->text();
+        QString ID=ui->username->text();
+        QString password=ui->password->text();
+        if (addr.toStdString()==""){
+            QMessageBox::information(NULL, "Notice", "Empty Address!");
+            return 0;
+        }
+        if (ID.toStdString()==""){
+            QMessageBox::information(NULL, "Notice", "Empty Username!");
+            return 0;
+        }
+        if (password.toStdString()==""){
+            QMessageBox::information(NULL, "Notice", "Empty Password!");
+            return 0;
+        }
+        std::string response;
+        CURL *curl;
+        CURLcode res;
+        curl = curl_easy_init();
+        string baseURL = "http://" + addr.toStdString() + "/";
+        string strPostData = "userId="+ID.toStdString()+"&password="+password.toStdString();
+        url = baseURL + "api/register";
+        curl_easy_setopt(curl, CURLOPT_URL, url.c_str());
+        curl_easy_setopt(curl, CURLOPT_WRITEDATA, &response);
+        curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, WriteCallback);
+        curl_easy_setopt(curl, CURLOPT_POST, 1);
+        curl_easy_setopt(curl, CURLOPT_POSTFIELDS, strPostData.c_str());
+        curl_easy_setopt(curl, CURLOPT_VERBOSE, 1L);
+        res = curl_easy_perform(curl);
+        curl_easy_cleanup(curl);
+        ui->label_5->setText("Response: " + QString::fromStdString(response));
+        if (response=="registered"){
+            QMessageBox::information(NULL, "Notice", "Username Exists!");
+            return 0;
+        }
+        if (response=="OK"){
+            QMessageBox::information(NULL, "Notice", "OK!");
+            return 0;
+        }
         return 0;
     });
 }

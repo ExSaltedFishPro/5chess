@@ -17,7 +17,7 @@
    <property name="geometry">
     <rect>
      <x>60</x>
-     <y>80</y>
+     <y>70</y>
      <width>131</width>
      <height>31</height>
     </rect>
@@ -45,7 +45,7 @@
      <x>180</x>
      <y>80</y>
      <width>141</width>
-     <height>31</height>
+     <height>21</height>
     </rect>
    </property>
   </widget>
@@ -71,7 +71,7 @@
    <property name="geometry">
     <rect>
      <x>60</x>
-     <y>130</y>
+     <y>110</y>
      <width>71</width>
      <height>31</height>
     </rect>
@@ -83,8 +83,8 @@
   <widget class="QPushButton" name="testconn">
    <property name="geometry">
     <rect>
-     <x>470</x>
-     <y>90</y>
+     <x>390</x>
+     <y>80</y>
      <width>131</width>
      <height>31</height>
     </rect>
@@ -97,7 +97,7 @@
    <property name="geometry">
     <rect>
      <x>60</x>
-     <y>180</y>
+     <y>150</y>
      <width>71</width>
      <height>31</height>
     </rect>
@@ -110,9 +110,9 @@
    <property name="geometry">
     <rect>
      <x>180</x>
-     <y>180</y>
+     <y>160</y>
      <width>141</width>
-     <height>31</height>
+     <height>21</height>
     </rect>
    </property>
   </widget>
@@ -120,9 +120,9 @@
    <property name="geometry">
     <rect>
      <x>180</x>
-     <y>130</y>
+     <y>120</y>
      <width>141</width>
-     <height>31</height>
+     <height>21</height>
     </rect>
    </property>
   </widget>
@@ -220,6 +220,45 @@
      <string>Status</string>
     </property>
    </column>
+  </widget>
+  <widget class="QLineEdit" name="password">
+   <property name="geometry">
+    <rect>
+     <x>180</x>
+     <y>200</y>
+     <width>141</width>
+     <height>21</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_6">
+   <property name="geometry">
+    <rect>
+     <x>60</x>
+     <y>190</y>
+     <width>71</width>
+     <height>31</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Password</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="reg">
+   <property name="geometry">
+    <rect>
+     <x>390</x>
+     <y>130</y>
+     <width>131</width>
+     <height>31</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Register</string>
+   </property>
   </widget>
  </widget>
  <resources/>

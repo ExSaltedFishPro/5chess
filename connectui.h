@@ -15,6 +15,7 @@ public:
     std::string url;
     std::string game;
     std::string id;
+    std::string password;
     explicit ConnectUI(QWidget *parent = nullptr);
     ~ConnectUI();
 

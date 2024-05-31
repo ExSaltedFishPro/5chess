@@ -38,6 +38,7 @@ board::board(ConnectUI *connect,QWidget *parent)
     baseURL = connect->url;
     gameId = connect->game;
     userId = connect->id;
+    password = connect->password;
     ui->setupUi(this);
     string title = "5-Chess Online game "+gameId + " on "+userId+"@"+baseURL;
     setWindowTitle(QString::fromStdString(title));
@@ -62,7 +63,7 @@ board::board(ConnectUI *connect,QWidget *parent)
         CURLcode res;
         curl = curl_easy_init();
         string target = baseURL + "api/chooseColor";
-        string strPostData = "userId="+userId+"&matchId="+gameId+"&color="+tmpColor;
+        string strPostData = "userId="+userId+"&matchId="+gameId+"&color="+tmpColor+"&password="+password;
         curl_easy_setopt(curl, CURLOPT_URL, target.c_str());
         curl_easy_setopt(curl, CURLOPT_WRITEDATA, &response);
         curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, WriteCallback);
@@ -125,7 +126,7 @@ void board::mouseReleaseEvent(QMouseEvent *event){
     string response;
     string location = to_string(chessX) + "," + to_string(chessY);
     string url = baseURL + "game/" + gameId + "/setChess";
-    string strPostData = "location="+location+"&userId="+userId;
+    string strPostData = "location="+location+"&userId="+userId+"&password="+password;
     curl_easy_setopt(curl, CURLOPT_URL, url.c_str());
     curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, WriteCallback);
     curl_easy_setopt(curl, CURLOPT_WRITEDATA, &response);
@@ -255,7 +256,7 @@ int board::wait(string &url,string &game,string &id){
             CURLcode res;
             curl = curl_easy_init();
             string target = url + "api/chooseColor";
-            string strPostData = "userId="+userId+"&matchId="+gameId+"&color="+tmpColor;
+            string strPostData = "userId="+userId+"&matchId="+gameId+"&color="+tmpColor+"&password="+password;
             curl_easy_setopt(curl, CURLOPT_URL, target.c_str());
             curl_easy_setopt(curl, CURLOPT_WRITEDATA, &response);
             curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, WriteCallback);
