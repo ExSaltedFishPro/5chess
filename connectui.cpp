@@ -68,6 +68,7 @@ ConnectUI::ConnectUI(QWidget *parent)
         CURLcode res;
         curl = curl_easy_init();
         string url = "http://" + addr.toStdString() + "/";
+        cout<<url<<endl;
         curl_easy_setopt(curl, CURLOPT_URL, url.c_str());
         curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, WriteCallback);
         curl_easy_setopt(curl, CURLOPT_WRITEDATA, &response);
