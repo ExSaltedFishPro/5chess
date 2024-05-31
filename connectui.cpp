@@ -156,7 +156,7 @@ ConnectUI::ConnectUI(QWidget *parent)
         CURLcode res;
         curl = curl_easy_init();
         string baseURL = "http://" + addr.toStdString() + "/";
-        string strPostData = "userId="+ID.toStdString() +"&matchId="+gameID.toStdString();
+        string strPostData = "userId="+ID.toStdString() +"&matchId="+gameID.toStdString()+"&password="+password;
         url = baseURL + "api/joinGame";
         curl_easy_setopt(curl, CURLOPT_URL, url.c_str());
         curl_easy_setopt(curl, CURLOPT_WRITEDATA, &response);
@@ -171,7 +171,7 @@ ConnectUI::ConnectUI(QWidget *parent)
         mode = "join";
         url = "http://" + addr.toStdString() + "/";
         if (response=="unauthorized"){
-            QMessageBox::information(NULL, "Notice", "Password Wrong!");
+            QMessageBox::information(NULL, "Notice", "Unauthorized");
             return 0;
         }
         if (QString::fromStdString(response)=="1"){
