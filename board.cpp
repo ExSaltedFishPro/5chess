@@ -158,6 +158,24 @@ void board::tempGetBoard(){
     curl_easy_cleanup(curl);
 }
 
+void board::forceGetBoard(){
+    string target = baseURL + "game/" + gameId + "/getForceBoard";
+    CURL *curl;
+    CURLcode res;
+    curl = curl_easy_init();
+    string strPostData = "";
+    string response;
+    curl_easy_setopt(curl, CURLOPT_URL, target.c_str());
+    curl_easy_setopt(curl, CURLOPT_WRITEDATA, &response);
+    curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, WriteCallback);
+    curl_easy_setopt(curl, CURLOPT_POST, 1);
+    curl_easy_setopt(curl, CURLOPT_VERBOSE, 1L);
+    curl_easy_setopt(curl, CURLOPT_POSTFIELDS, strPostData.c_str());
+    res = curl_easy_perform(curl);
+    boardRaw = response;
+    curl_easy_cleanup(curl);
+}
+
 string board::getPlayerNow(string &url,string &game,string &id){
     string target = url + "game/" + game + "/getPlayerNow";
     CURL *curl;
@@ -213,10 +231,12 @@ int board::main_loop(string &url,string &game,string &id){
                 res = curl_easy_perform(curl);
                 boardRaw = response;
                 if (response=="white"){
+                    forceGetBoard();
                     update();
                     QMessageBox::information(NULL, "Notice", "WHITE WIN!");
                     return 0;
                 } else if (response=="black"){
+                    forceGetBoard();
                     update();
                     QMessageBox::information(NULL, "Notice", "BLACK WIN!");
                     return 0;

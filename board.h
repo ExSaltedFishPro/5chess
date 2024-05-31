@@ -41,6 +41,8 @@ private:
     std::string getPlayerNow(std::string &url, std::string &game, std::string &mode);
 
     void tempGetBoard();
+
+    void forceGetBoard();
 };
 
 
