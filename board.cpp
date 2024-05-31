@@ -201,7 +201,7 @@ int board::main_loop(string &url,string &game,string &id){
     connect(this,&board::set,[&](){
         wait_another = true;
     });
-    QTimer::singleShot(3000,this,[&](){
+    QTimer::singleShot(1000,this,[&](){
         //循环请求并渲染棋盘
         if (wait_another){
             ui->info->setText(QString::fromStdString("Waiting Opponent"));
