@@ -34,6 +34,7 @@ add_executable(5chess main.cpp
         resources.qrc
         pve.cpp
         eve.cpp
+        main.cpp icon.rc
 )
 add_library(
         libcurl.dll
@@ -41,7 +42,9 @@ add_library(
         Qt6Gui.dll
         Qt6Widgets.dll
 )
-
+set_target_properties(5chess PROPERTIES
+        WIN32_EXECUTABLE TRUE
+)
 
 target_link_libraries(5chess
         Qt::Core
