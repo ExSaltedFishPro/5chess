@@ -119,8 +119,11 @@ ConnectUI::ConnectUI(QWidget *parent)
             QMessageBox::information(NULL, "Notice", "Not Registered!");
             return 0;
         }
+        if (game=="unauthorized"){
+            QMessageBox::information(NULL, "Notice", "Password Wrong!");
+            return 0;
+        }
         ui->gameid->setText(QString::fromStdString(response));
-
         board *chessBoard = new board(this);
         chessBoard->show();
         return 0;
@@ -129,6 +132,8 @@ ConnectUI::ConnectUI(QWidget *parent)
         QString addr=ui->addr->text();
         QString ID=ui->username->text();
         QString gameID=ui->gameid->text();
+        QString pass=ui->password->text();
+        password = pass.toStdString();
         game = gameID.toStdString();
         if (addr.toStdString()==""){
             QMessageBox::information(NULL, "Notice", "Empty Address!");
@@ -140,6 +145,10 @@ ConnectUI::ConnectUI(QWidget *parent)
         }
         if (gameID.toStdString()==""){
             QMessageBox::information(NULL, "Notice", "Empty Game ID!");
+            return 0;
+        }
+        if (pass.toStdString()==""){
+            QMessageBox::information(NULL, "Notice", "Empty Password!");
             return 0;
         }
         std::string response;
@@ -161,10 +170,15 @@ ConnectUI::ConnectUI(QWidget *parent)
         id = ID.toStdString();
         mode = "join";
         url = "http://" + addr.toStdString() + "/";
+        if (response=="unauthorized"){
+            QMessageBox::information(NULL, "Notice", "Password Wrong!");
+            return 0;
+        }
         if (QString::fromStdString(response)=="1"){
             QMessageBox::information(NULL, "Notice", "Game ID Not Exists!");
             return 0;
         }
+
         board *chessBoard = new board(this);
         chessBoard->show();
         return 0;
