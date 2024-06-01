@@ -1,0 +1,105 @@
+{
+	"configurations" : 
+	[
+		{
+			"directories" : 
+			[
+				{
+					"build" : ".",
+					"jsonFile" : "directory-.-Release-d0094a50bb2071803777.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.16"
+					},
+					"projectIndex" : 0,
+					"source" : ".",
+					"targetIndexes" : 
+					[
+						0,
+						1,
+						2,
+						3,
+						4,
+						5
+					]
+				}
+			],
+			"name" : "Release",
+			"projects" : 
+			[
+				{
+					"directoryIndexes" : 
+					[
+						0
+					],
+					"name" : "5chess",
+					"targetIndexes" : 
+					[
+						0,
+						1,
+						2,
+						3,
+						4,
+						5
+					]
+				}
+			],
+			"targets" : 
+			[
+				{
+					"directoryIndex" : 0,
+					"id" : "5chess::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-5chess-Release-3af0087bc38a399712b8.json",
+					"name" : "5chess",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "5chess_autogen::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-5chess_autogen-Release-c1d912d1fbd75c1136f5.json",
+					"name" : "5chess_autogen",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "5chess_autogen_timestamp_deps::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-5chess_autogen_timestamp_deps-Release-7d92ddece6f92d648eaa.json",
+					"name" : "5chess_autogen_timestamp_deps",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "libcurl.dll::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-libcurl.dll-Release-f6bfe49490200ad3f32b.json",
+					"name" : "libcurl.dll",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "libcurl.dll_autogen::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-libcurl.dll_autogen-Release-f6dd540f4d3cc429492c.json",
+					"name" : "libcurl.dll_autogen",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "libcurl.dll_autogen_timestamp_deps::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-libcurl.dll_autogen_timestamp_deps-Release-59e01b7004e083a57b47.json",
+					"name" : "libcurl.dll_autogen_timestamp_deps",
+					"projectIndex" : 0
+				}
+			]
+		}
+	],
+	"kind" : "codemodel",
+	"paths" : 
+	{
+		"build" : "C:/Users/likaijie/CLionProjects/5chess/cmake-build-release",
+		"source" : "C:/Users/likaijie/CLionProjects/5chess"
+	},
+	"version" : 
+	{
+		"major" : 2,
+		"minor" : 6
+	}
+}

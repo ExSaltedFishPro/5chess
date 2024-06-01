@@ -1,0 +1,26 @@
+# ninja log v5
+30	577	7388547547616829	5chess_autogen/timestamp	18b064acdecd381d
+30	577	7388547547616829	5chess_autogen/mocs_compilation.cpp	18b064acdecd381d
+604	3235	7388547574857626	CMakeFiles/5chess.dir/board.cpp.obj	1a71396a60cf4a72
+591	3292	7388547575397654	CMakeFiles/5chess.dir/connectui.cpp.obj	71952c1f66755a55
+30	577	7388547547616829	C:/Users/likaijie/CLionProjects/5chess/cmake-build-debug/5chess_autogen/timestamp	18b064acdecd381d
+30	577	7388547547616829	C:/Users/likaijie/CLionProjects/5chess/cmake-build-debug/5chess_autogen/mocs_compilation.cpp	18b064acdecd381d
+10	307	7360253889190949	C:/Users/likaijie/CLionProjects/5chess/cmake-build-debug/libcurl.dll_autogen/timestamp	ccaa6ed12185d286
+384	495	7360253892075009	liblibcurl.dll.a	fd10f4ae8f0f1e5
+10	307	7360253889190949	libcurl.dll_autogen/timestamp	ccaa6ed12185d286
+10	307	7360253889190949	libcurl.dll_autogen/mocs_compilation.cpp	ccaa6ed12185d286
+10	307	7360253889190949	C:/Users/likaijie/CLionProjects/5chess/cmake-build-debug/libcurl.dll_autogen/mocs_compilation.cpp	ccaa6ed12185d286
+577	1853	7388547561023646	CMakeFiles/5chess.dir/5chess_autogen/mocs_compilation.cpp.obj	6b37316a6d16f99d
+308	384	7360253890964746	CMakeFiles/libcurl.dll.dir/libcurl.dll_autogen/mocs_compilation.cpp.obj	cb746be25cf6e08b
+784	2339	7388536175352138	CMakeFiles/5chess.dir/main.cpp.obj	80cdb2d8f327e2bd
+3292	11964	7388547578580330	5chess.exe	764637d53eb9f883
+567	1718	7379761528812225	CMakeFiles/5chess.dir/mainwindow.cpp.obj	571e964a633df94c
+1257	3407	7379940527962211	CMakeFiles/5chess.dir/BaseScene.cpp.obj	3747f7d25eeeacd1
+5	737	7388563190420531	build.ninja	3b1946761a5e25e5
+301	438	7385046155897488	5chess_autogen/EWIEGA46WW/qrc_resources.cpp	3c77562ebb17874
+301	438	7385046155897488	C:/Users/likaijie/CLionProjects/5chess/cmake-build-debug/5chess_autogen/EWIEGA46WW/qrc_resources.cpp	3c77562ebb17874
+886	2786	7388536179783818	CMakeFiles/5chess.dir/5chess_autogen/EWIEGA46WW/qrc_resources.cpp.obj	8984295df8000772
+828	3745	7388536189387889	CMakeFiles/5chess.dir/pvplocal.cpp.obj	21dc2b866acdaef9
+843	3902	7388536190963808	CMakeFiles/5chess.dir/pve.cpp.obj	317d871d54c5f260
+860	3856	7388536190501196	CMakeFiles/5chess.dir/eve.cpp.obj	3115be6a1ef85b81
+875	1071	7388536162698446	CMakeFiles/5chess.dir/icon.rc.obj	1f1a00440930f71d

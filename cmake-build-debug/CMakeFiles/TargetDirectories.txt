@@ -1,0 +1,8 @@
+C:/Users/likaijie/CLionProjects/5chess/cmake-build-debug/CMakeFiles/5chess.dir
+C:/Users/likaijie/CLionProjects/5chess/cmake-build-debug/CMakeFiles/libcurl.dll.dir
+C:/Users/likaijie/CLionProjects/5chess/cmake-build-debug/CMakeFiles/edit_cache.dir
+C:/Users/likaijie/CLionProjects/5chess/cmake-build-debug/CMakeFiles/rebuild_cache.dir
+C:/Users/likaijie/CLionProjects/5chess/cmake-build-debug/CMakeFiles/5chess_autogen_timestamp_deps.dir
+C:/Users/likaijie/CLionProjects/5chess/cmake-build-debug/CMakeFiles/5chess_autogen.dir
+C:/Users/likaijie/CLionProjects/5chess/cmake-build-debug/CMakeFiles/libcurl.dll_autogen_timestamp_deps.dir
+C:/Users/likaijie/CLionProjects/5chess/cmake-build-debug/CMakeFiles/libcurl.dll_autogen.dir
