@@ -12,7 +12,7 @@ set(VCPKG_TARGET_TRIPLET "x64-mingw-dynamic" CACHE STRING "" FORCE)
 set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -static")
 
 set(CURL_DIR "C:\\Users\\likaijie\\.vcpkg-clion\\vcpkg\\installed\\x64-mingw-dynamic\\share\\curl")
-set(jsoncpp_DIR "C:\\Users\\likaijie\\.vcpkg-clion\\vcpkg\\installed\\x64-mingw-dynamic\\share\\jsoncpp")
+
 set(ZLIB_ROOT "C:\\Users\\likaijie\\.vcpkg-clion\\vcpkg\\installed\\x64-mingw-dynamic\\")
 set(cJSON_DIR "C:\\Users\\likaijie\\.vcpkg-clion\\vcpkg\\installed\\x64-mingw-dynamic\\share\\cjson")
 find_package(CURL CONFIG REQUIRED)
