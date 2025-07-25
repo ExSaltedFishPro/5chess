@@ -560,12 +560,6 @@
   C:/Users/likaijie/.vcpkg-clion/vcpkg/installed/x64-mingw-dynamic/share/curl/CURLTargets-release.cmake \
   C:/Users/likaijie/.vcpkg-clion/vcpkg/installed/x64-mingw-dynamic/share/curl/CURLTargets.cmake \
   C:/Users/likaijie/.vcpkg-clion/vcpkg/installed/x64-mingw-dynamic/share/curl/vcpkg-cmake-wrapper.cmake \
-  C:/Users/likaijie/.vcpkg-clion/vcpkg/installed/x64-mingw-dynamic/share/jsoncpp/jsoncpp-namespaced-targets.cmake \
-  C:/Users/likaijie/.vcpkg-clion/vcpkg/installed/x64-mingw-dynamic/share/jsoncpp/jsoncpp-targets-debug.cmake \
-  C:/Users/likaijie/.vcpkg-clion/vcpkg/installed/x64-mingw-dynamic/share/jsoncpp/jsoncpp-targets-release.cmake \
-  C:/Users/likaijie/.vcpkg-clion/vcpkg/installed/x64-mingw-dynamic/share/jsoncpp/jsoncpp-targets.cmake \
-  C:/Users/likaijie/.vcpkg-clion/vcpkg/installed/x64-mingw-dynamic/share/jsoncpp/jsoncppConfig.cmake \
-  C:/Users/likaijie/.vcpkg-clion/vcpkg/installed/x64-mingw-dynamic/share/jsoncpp/jsoncppConfigVersion.cmake \
   C:/Users/likaijie/.vcpkg-clion/vcpkg/installed/x64-mingw-dynamic/share/zlib/vcpkg-cmake-wrapper.cmake \
   C:/Users/likaijie/.vcpkg-clion/vcpkg/scripts/buildsystems/vcpkg.cmake \
   C:/Users/likaijie/CLionProjects/5chess/CMakeLists.txt \
